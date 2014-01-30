@@ -18,18 +18,17 @@ class Sppuppet
     # Don't care about code we can't merge
     return false unless pr.mergeable
 
+    comments = @client.issue_comments(project, pull_request_id)
     # Check each comment for +1 and merge comments
-    @client.issue_comments(project, pull_request_id).each do |i|
+    comments.each do |i|
 
       if i.body == '+1'
         # pull request submitter cant +1
 
         unless pr.user.login == i.attrs[:user].attrs[:login]
-        plus_one[i.attrs[:user].attrs[:login]] = 1
+          plus_one[i.attrs[:user].attrs[:login]] = 1
         end
       end
-
-      merge = true if i.body == 'merge this please'
 
       # TODO it should calculate the +1's - the -1's
       # Never merge if someone says -1
@@ -38,6 +37,8 @@ class Sppuppet
         return false
       end
     end
+
+    merge = true if comments.last.body == 'merge this please'
 
     if plus_one.count >= @settings['plus_ones_required'] and merge
       puts 'LOOKS GOOD TO ME'
