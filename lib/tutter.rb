@@ -34,7 +34,15 @@ class Tutter < Sinatra::Base
       c.api_endpoint = conf['github_api_endpoint']
       c.web_endpoint = conf['github_site']
     end
-    client = Octokit::Client.new :access_token => conf['access_token']
+
+    begin
+      client = Octokit::Client.new :access_token => conf['access_token']
+      client.login
+    rescue Octokit::Unauthorized
+      return "Authorization to #{project} failed, please verify your access token"
+    rescue Octokit::TooManyLoginAttempts
+      return "Account for #{project} has been temporary locked down due to to many failed login attempts"
+    end
 
     validator = Validator.create(conf['validator'],
                                  conf['validator_settings'],
