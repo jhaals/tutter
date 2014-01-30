@@ -23,7 +23,7 @@ class Sppuppet
     # Check each comment for +1 and merge comments
     comments.each do |i|
 
-      if /^\+1/.match i.body
+      if /^(\+1|:\+1)/.match i.body
         # pull request submitter cant +1
 
         unless pr.user.login == i.attrs[:user].attrs[:login]
@@ -33,7 +33,7 @@ class Sppuppet
 
       # TODO it should calculate the +1's - the -1's
       # Never merge if someone says -1
-      if /^\-1/.match i.body
+      if /^(\-1|:\-1:)/.match i.body
         puts "#{project} #{pull_request_id} has a -1. I will not take the blame"
         return false
       end
