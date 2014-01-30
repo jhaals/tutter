@@ -19,10 +19,11 @@ class Sppuppet
     return false unless pr.mergeable
 
     comments = @client.issue_comments(project, pull_request_id)
+
     # Check each comment for +1 and merge comments
     comments.each do |i|
 
-      if i.body == '+1'
+      if /^\+1/.match i.body
         # pull request submitter cant +1
 
         unless pr.user.login == i.attrs[:user].attrs[:login]
@@ -32,13 +33,13 @@ class Sppuppet
 
       # TODO it should calculate the +1's - the -1's
       # Never merge if someone says -1
-      if i.body == '-1'
+      if /^\-1/.match i.body
         puts 'This PR has a -1. I will not take the blame'
         return false
       end
     end
 
-    merge = true if comments.last.body == 'merge this please'
+    merge = true if comments.last.body == '!merge'
 
     if plus_one.count >= @settings['plus_ones_required'] and merge
       puts 'LOOKS GOOD TO ME'
