@@ -4,7 +4,7 @@ Tutter is a “pluggable” Github merge bot. Use it to ensure custom rules and 
 Tutter monitors pull requests in your Github project and can allow automatic merging based on
 your ACL's or preferences
 
-The default validator that's shipped with tutter allow anyone to merge a commit that has a +1 comment by more then two people. The commit can be merged by adding a comment that says !merge
+The default validator that's shipped with tutter allow anyone to merge a commit that has a _+1_ comment by more then two people. The commit can be merged by adding a comment that says _!merge_
 
     Default validator workflow:
     Pull Request -> Built automatically by Jenkins -> Jenkins Says OK ->
@@ -18,7 +18,8 @@ The default validator that's shipped with tutter allow anyone to merge a commit 
 
 An example validator can be found in lib/tutter/validator/sppuppet.rb
 
-### Required methods and their arguments
+#####Required methods and their arguments
+
 `initialize`
 
     settings - contains a hash of validator specific settings
@@ -38,3 +39,4 @@ Tutter uses [octokit.rb](https://github.com/octokit/octokit.rb) to communicate w
 
 ## Features to implement
 * Add Web hooks in Github automatically
+* Updated pull requests should require new +1's
