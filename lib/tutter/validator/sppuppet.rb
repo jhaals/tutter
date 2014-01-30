@@ -11,7 +11,7 @@ class Sppuppet
     merge = false
 
     if pr.mergeable_state != 'clean'
-      puts "NOT TESTED IN JENKINS mergable status #{pr.mergeable_state}"
+      puts "merge state for #{project} #{pull_request_id} is not clean. Current state: #{pr.mergeable_state}"
       return false
     end
 
@@ -34,7 +34,7 @@ class Sppuppet
       # TODO it should calculate the +1's - the -1's
       # Never merge if someone says -1
       if /^\-1/.match i.body
-        puts 'This PR has a -1. I will not take the blame'
+        puts "#{project} #{pull_request_id} has a -1. I will not take the blame"
         return false
       end
     end
@@ -42,13 +42,12 @@ class Sppuppet
     merge = true if comments.last.body == '!merge'
 
     if plus_one.count >= @settings['plus_ones_required'] and merge
-      puts 'LOOKS GOOD TO ME'
       return true
     end
   end
 
   def merge project, pull_request_id
-    puts 'merging'
+    puts "merging #{pull_request_id} in #{project}"
     @client.merge_pull_request(project, pull_request_id, 'SHIPPING!!')
   end
 
