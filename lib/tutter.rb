@@ -11,6 +11,7 @@ class Tutter < Sinatra::Base
     set :config, YAML.load_file('conf/tutter.yaml')
     set :bind, '0.0.0.0'
   end
+
   configure :production do
     set :config, YAML.load_file('/etc/tutter.yaml')
   end
@@ -37,7 +38,6 @@ class Tutter < Sinatra::Base
 
     begin
       client = Octokit::Client.new :access_token => conf['access_token']
-      client.login
     rescue Octokit::Unauthorized
       return "Authorization to #{project} failed, please verify your access token"
     rescue Octokit::TooManyLoginAttempts
