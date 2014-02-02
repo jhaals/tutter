@@ -1,42 +1,50 @@
 # Tutter (WIP)
-Tutter is a “pluggable” Github merge bot. Use it to ensure custom rules and validation for your Github project
+Tutter is a "pluggable" Github robot. Use it to trigger actions based on merges, issues or pull requests added to your project.
 
-Tutter monitors pull requests in your Github project and can allow automatic merging based on
-your ACL's or preferences
+The default action that's shipped with tutter allow anyone to merge a commit that has a _+1_ comment by more then two people. The commit can be merged by adding a comment that says _!merge_
 
-The default validator that's shipped with tutter allow anyone to merge a commit that has a _+1_ comment by more then two people. The commit can be merged by adding a comment that says _!merge_
+The default action that's shipped with tutter. You can create your own.
 
-    Default validator workflow:
-    Pull Request -> Built automatically by Jenkins -> Jenkins Says OK ->
-    User X says +1 -> User Y +1 -> Anyone says !merge -> Tutter merges
+    Trigger on pull requests ->
+    Wait until github says build is clean(eg when jenkins says tests passed) ->
+    Require a +1 comment by two users ->
+    Require !merge comment by one user ->
+    Merge pull request
 
 #  Features
-* Pluggable with custom validators
+* Pluggable with custom actions
 * Supports multiple projects
 
-### Custom validators
+# Installation
+    gem install tutter
 
-An example validator can be found in lib/tutter/validator/sppuppet.rb
+put a configuration file in /etc/tutter.yaml
+an example can be found under conf/tutter.yaml
+
+Configuration settings
+
+* `name` - username/projectname
+* `access_token` - github access token
+* `github_site` - github website
+* `github_api_enpoint` - github api endpint
+* `action` - action you wish to use for this project
+* `action_settings` - whatever settings your action require. All action settings will be available in the action.
+
+### Build a custom action
+
+An example action can be found in lib/tutter/action/sppuppet.rb
 
 #####Required methods and their arguments
 
 `initialize`
 
-    settings - contains a hash of validator specific settings
-    client - Used to access the github api, all authentication is already done by tutter.
-
-`validate`
-
-    project - The github project name (name/project)
-    pull_request_id - id
-
-`merge`
-
-    project - The github project name (name/project)
-    pull_request_id - id
+    settings - contains a hash of action specific settings
+    client - Used to access the github api, all authentication is already done by tutter
+    project - Project name, eg jhaals/tutter
+    data - POST data from Github
+`run` - Run action
 
 Tutter uses [octokit.rb](https://github.com/octokit/octokit.rb) to communicate with the Github [API](http://developer.github.com/v3/)
 
 ## Features to implement
 * Add Web hooks in Github automatically
-* Updated pull requests should require new +1's

@@ -1,7 +1,7 @@
 require 'octokit'
 require 'yaml'
 require 'sinatra'
-require 'tutter/validator'
+require 'tutter/action'
 require 'json'
 
 class Tutter < Sinatra::Base
@@ -24,9 +24,9 @@ class Tutter < Sinatra::Base
   end
 
   post '/' do
-    r = JSON.parse request.body.read
-    project = r['repository']['full_name']
-    issue = r['issue']['number']
+    data = JSON.parse request.body.read
+    project = data['repository']['full_name']
+    issue = data['issue']['number']
     conf = get_project_settings(project)
 
     return 'Project does not exist in tutter.conf' unless conf
@@ -44,12 +44,15 @@ class Tutter < Sinatra::Base
       return "Account for #{project} has been temporary locked down due to to many failed login attempts"
     end
 
-    validator = Validator.create(conf['validator'],
-                                 conf['validator_settings'],
-                                 client)
-    if validator.validate(project, issue)
-      validator.merge(project, issue)
-    end
+
+    action = Action.create(conf['action'],
+                                 conf['action_settings'],
+                                 client,
+                                 project,
+                                 data)
+
+    action.run
+
     return 'Source code and documentation at https://github.com/jhaals/tutter'
   end
   run! if app_file == $0
