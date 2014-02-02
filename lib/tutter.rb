@@ -26,7 +26,7 @@ class Tutter < Sinatra::Base
   post '/' do
     data = JSON.parse request.body.read
     project = data['repository']['full_name']
-    issue = data['issue']['number']
+
     conf = get_project_settings(project)
 
     return 'Project does not exist in tutter.conf' unless conf
