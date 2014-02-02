@@ -1,3 +1,25 @@
+# This action let non collaborators review
+# and merge code without having more then read access to the project.
+
+# HOW
+
+# 1. A pull request get submitted
+# 2. Someone thinks it looks good and comments with a +1
+# 3. Another person gives a +1
+# 4. The pull request can be merged by commenting !merge when it has the
+# desired amount of +1's(configurable)
+
+# A pull request will be blocked if it has a -1 comment
+
+# TODO - merge whitelist and blacklist
+
+# tutter.conf sppuppet specific settings
+
+#    action: 'sppuppet'
+#    action_settings:
+#      plus_ones_required: 3
+
+
 class Sppuppet
 
   def initialize(settings, client, project, data)
