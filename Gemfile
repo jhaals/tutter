@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'octokit'
-gem 'sinatra'
+gem 'octokit', '~> 2.7.1'
+gem 'sinatra', '~> 1.4.4'
 
 group :dev do
   gem 'sinatra-contrib'
