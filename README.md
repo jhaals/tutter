@@ -1,38 +1,43 @@
-# Tutter (WIP)
-Tutter is a "pluggable" Github robot. Use it to trigger actions based on merges, issues or pull requests added to your project.
+# Tutter - Plugin based Github robot
+Tutter is a web app that trigger actions based on Github events(push, pull_reqeust, release, issue, ...)
 
-The default action that's shipped with tutter allow anyone to merge a commit that has a _+1_ comment by more then two people. The commit can be merged by adding a comment that says _!merge_
-
-The default action that's shipped with tutter. You can create your own.
-
-    Trigger on pull requests ->
-    Wait until github says build is clean(eg when jenkins says tests passed) ->
-    Require a +1 comment by two users ->
-    Require !merge comment by one user ->
-    Merge pull request
-
-#  Features
+# Features
 * Pluggable with custom actions
 * Supports multiple projects
 
 # Installation
+
     gem install tutter
 
-put a configuration file in /etc/tutter.yaml
-an example can be found under conf/tutter.yaml
+put a configuration file in `/etc/tutter.yaml`
+an example can be found under `conf/tutter.yaml`
 
-Configuration settings
+Let's install the `thanks` action that thank anyone that creates an issue in your project.
+
+### tutter.yaml settings
 
 * `name` - username/projectname
-* `access_token` - github access token
+* `access_token` - github access token (can be generated [here](https://github.com/settings/applications))
 * `github_site` - github website
 * `github_api_enpoint` - github api endpint
-* `action` - action you wish to use for this project
-* `action_settings` - whatever settings your action require. All action settings will be available in the action.
+* `action` - action you wish to use for the project
+* `action_settings` - whatever settings your action require
 
-### Build a custom action
+### Create the Github hook
+Github has no UI for creating hooks other then hooks triggered on push.
 
-An example action can be found in lib/tutter/action/sppuppet.rb
+Let's create one that triggers on issues
+
+    $ tutter --project jhaals/testing \
+    --url https://tutter.jhaals.se \
+    --access-token <github_api_token> \
+    --github-web-url https://github.com \
+    --github-api-endpoint https://api.github.com \
+    --events issues
+
+## Build custom action
+
+Another example action [github.com/jhaals/tutter-sppuppet](https://github.com/jhaals/tutter-sppuppet)
 
 #####Required methods and their arguments
 
@@ -41,10 +46,14 @@ An example action can be found in lib/tutter/action/sppuppet.rb
     settings - contains a hash of action specific settings
     client - Used to access the github api, all authentication is already done by tutter
     project - Project name, eg jhaals/tutter
-    data - POST data from Github
+    data - POST data that github send when a hook is triggered
+
 `run` - Run action
 
 Tutter uses [octokit.rb](https://github.com/octokit/octokit.rb) to communicate with the Github [API](http://developer.github.com/v3/)
 
-## Features to implement
-* Add Web hooks in Github automatically
+### Features to implement
+* Add web hooks in Github automatically
+* Support multiple actions per project
+* Authenticate as a Github application
+* Features your're missing (please contribute)
