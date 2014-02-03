@@ -9,8 +9,8 @@ OptionParser.new do |opts|
   opts.on("-p", "--project [PROJECT]", "Github project name (jhaals/tutter)") do |p|
     options[:project] = p
   end
-  opts.on("-c", "--create-hook", "Create tutter hook") do |c|
-    options[:create] = c
+  opts.on("-e", "--events [EVENTS]", "Github events that will trigger tutter") do |e|
+    options[:events] = e
   end
   opts.on("-u", "--url [URL]", "URL to the tutter service") do |u|
     options[:url] = u
@@ -21,7 +21,7 @@ OptionParser.new do |opts|
   opts.on("--github-api-endpoint [api-endpoint]", "Github API endpoint") do |t|
     options[:api_endpoint] = t
   end
-  opts.on("--github-web-url [web-url]", "Github website url") do |t|
+  opts.on("--github-web-url [GITHUBWEBSITE]", "Github website url") do |t|
     options[:base_url] = t
   end
 end.parse!
@@ -59,19 +59,17 @@ end
 client = Octokit::Client.new :access_token => options[:access_token]
 client.login
 
+p client.create_hook(
+  options[:project],
+  'web',
+  {
+    :url => options[:url],
+    :content_type => 'json'
+  },
+  {
+    :events => options[:events].split(','),
+    :active => true
+  }
+)
 
-if options[:create]
-  client.create_hook(
-    options[:project],
-    'web',
-    {
-      :url => options[:url],
-      :content_type => 'json'
-    },
-    {
-      :events => ['comment'],
-      :active => true
-    }
-  )
-end
 
