@@ -1,0 +1,11 @@
+projects:
+  - name: 'JHaals/testing'
+    access_token: ''
+    github_site: 'https://github.com'
+    github_api_endpoint: 'https://api.github.com'
+
+    action: 'thanks'
+    action_settings:
+        whatever_action_specific_setting: 'foo'
+        another_setting: false
+
