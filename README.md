@@ -35,6 +35,13 @@ Let's create one that triggers on issues
     --github-api-endpoint https://api.github.com \
     --events issues
 
+_The tutter user need admin access in your organisation to be able to create the hook_
+
+`--events` can take multiple events separated by comma
+
+New issues should get a response from your tutter user
+![img](http://f.cl.ly/items/1k111I3H1N0L3008301c/tutter.png)
+
 ## Build custom action
 
 Another example action [github.com/jhaals/tutter-sppuppet](https://github.com/jhaals/tutter-sppuppet)
@@ -53,7 +60,8 @@ Another example action [github.com/jhaals/tutter-sppuppet](https://github.com/jh
 Tutter uses [octokit.rb](https://github.com/octokit/octokit.rb) to communicate with the Github [API](http://developer.github.com/v3/)
 
 ### Features to implement
-* Add web hooks in Github automatically
+* Add web hooks in Github automatically or in a nicer way
 * Support multiple actions per project
 * Authenticate as a Github application
 * Features your're missing (please contribute)
+* Tests!
