@@ -23,9 +23,8 @@ class Thanks
      return "Authorization to #{@project} failed, please verify your access token"
     rescue Octokit::TooManyLoginAttempts
      return "Account for #{@project} has been temporary locked down due to to many failed login attempts"
-    rescue Exception => e
-      return e.to_s
     end
+    # TODO - Verify return data from @client.add_comment
   end
 
 end
