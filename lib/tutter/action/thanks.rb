@@ -17,8 +17,15 @@ class Thanks
     submitter = @data['issue']['user']['login']
     comment = "@#{submitter} thanks for submitting this issue!"
 
-    puts comment # just for debug purpose
-    @client.add_comment(@project, issue, comment)
+    begin
+      @client.add_comment(@project, issue, comment)
+    rescue Octokit::Unauthorized
+     return "Authorization to #{@project} failed, please verify your access token"
+    rescue Octokit::TooManyLoginAttempts
+     return "Account for #{@project} has been temporary locked down due to to many failed login attempts"
+    rescue Exception => e
+      return e.to_s
+    end
   end
 
 end

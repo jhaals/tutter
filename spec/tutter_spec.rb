@@ -14,3 +14,11 @@ describe 'tutter' do
   end
 
 end
+
+describe 'tutter Hello action' do
+  it 'should complain about invalid credentials' do
+    data = IO.read('spec/fixtures/new_issue.json')
+    post '/', params=data
+    last_response.body.should match /Authorization to JHaals\/testing failed, please verify your access token/
+  end
+end

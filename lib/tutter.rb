@@ -38,14 +38,7 @@ class Tutter < Sinatra::Base
       c.web_endpoint = conf['github_site']
     end
 
-    # Authenticate to Github
-    begin
-      client = Octokit::Client.new :access_token => conf['access_token']
-    rescue Octokit::Unauthorized
-      return "Authorization to #{project} failed, please verify your access token"
-    rescue Octokit::TooManyLoginAttempts
-      return "Account for #{project} has been temporary locked down due to to many failed login attempts"
-    end
+    client = Octokit::Client.new :access_token => conf['access_token']
 
     # Load action
     action = Action.create(conf['action'],
@@ -54,10 +47,8 @@ class Tutter < Sinatra::Base
                                  project,
                                  data)
 
-    action.run
-    # Github does not care about status codes or return values.
-    # Output url to source if someone is interested
-    'Source code and documentation at https://github.com/jhaals/tutter'
+    # Return result from our action. For debug purposes
+    return action.run
   end
 
   get '/' do
