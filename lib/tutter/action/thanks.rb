@@ -11,8 +11,9 @@ class Thanks
 
   def run
     # Only trigger if a new issue is created
-    return unless @data['action'] == 'opened'
-
+    unless @data['action'] == 'opened'
+      return 200, "Web hook from GitHub for #{@project} does not have status opened. We don't thank people for closing issues"
+    end
     issue = @data['issue']['number']
     submitter = @data['issue']['user']['login']
     comment = "@#{submitter} thanks for submitting this issue!"
@@ -20,9 +21,9 @@ class Thanks
     begin
       @client.add_comment(@project, issue, comment)
     rescue Octokit::Unauthorized
-     return "Authorization to #{@project} failed, please verify your access token"
+      return 401, "Authorization to #{@project} failed, please verify your access token"
     rescue Octokit::TooManyLoginAttempts
-     return "Account for #{@project} has been temporary locked down due to to many failed login attempts"
+      return 429, "Account for #{@project} has been temporary locked down due to to many failed login attempts"
     end
     # TODO - Verify return data from @client.add_comment
   end

@@ -26,11 +26,14 @@ class Tutter < Sinatra::Base
 
   post '/' do
     # Github send data in JSON format, parse it!
-    data = JSON.parse request.body.read
-    project = data['repository']['full_name']
+    begin
+      data = JSON.parse request.body.read
+    rescue JSON::ParserError
+      error(400, 'POST data is not JSON')
+    end
+    project = data['repository']['full_name'] || error(400, 'Bad request')
 
-    conf = get_project_settings(project)
-    return 'Project does not exist in tutter.conf' unless conf
+    conf = get_project_settings(project) || error(404, 'Project does not exist in tutter.conf')
 
     # Setup octokit endpoints
     Octokit.configure do |c|
@@ -47,8 +50,8 @@ class Tutter < Sinatra::Base
                                  project,
                                  data)
 
-    # Return result from our action. For debug purposes
-    return action.run
+    status_code, message = action.run
+    return status_code, message
   end
 
   get '/' do
