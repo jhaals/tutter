@@ -12,6 +12,11 @@ class Tutter < Sinatra::Base
     set :bind, '0.0.0.0'
   end
 
+  configure :test do
+    set :config, YAML.load_file('conf/tutter.yaml')
+    set :bind, '0.0.0.0'
+  end
+
   configure :production do
     set :config, YAML.load_file('/etc/tutter.yaml')
   end
