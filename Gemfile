@@ -9,4 +9,5 @@ group :test do
   gem 'rake'
   gem 'rack'
   gem 'rspec'
+  gem 'json'
 end
