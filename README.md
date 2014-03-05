@@ -1,4 +1,6 @@
 # Tutter - Plugin based Github robot
+[![Build Status](https://travis-ci.org/JHaals/tutter.png?branch=master)](https://travis-ci.org/JHaals/tutter)
+
 Tutter is a web app that trigger actions based on Github events(push, pull_reqeust, release, issue, ...)
 
 # Features

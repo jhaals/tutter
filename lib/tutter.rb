@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'octokit'
 require 'yaml'
 require 'sinatra'
@@ -8,6 +9,11 @@ class Tutter < Sinatra::Base
   configure :development do
     require 'sinatra/reloader'
     register Sinatra::Reloader
+    set :config, YAML.load_file('conf/tutter.yaml')
+    set :bind, '0.0.0.0'
+  end
+
+  configure :test do
     set :config, YAML.load_file('conf/tutter.yaml')
     set :bind, '0.0.0.0'
   end
