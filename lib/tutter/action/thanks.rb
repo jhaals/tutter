@@ -2,10 +2,11 @@
 # Thank the person who submit an issue
 
 class Thanks
-  def initialize(settings, client, project, data)
+  def initialize(settings, client, project, event, data)
     @settings = settings # action specific settings
     @client = client # Octokit client
     @project = project # project name
+    @event = event # Github event
     @data = data
   end
 
