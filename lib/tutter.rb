@@ -6,20 +6,20 @@ require 'tutter/action'
 require 'json'
 
 class Tutter < Sinatra::Base
+
+  configure do
+    set :config_path, ENV['TUTTER_CONFIG_PATH'] || "conf/tutter.yaml"
+    set :config, YAML.load_file(settings.config_path)
+  end
+
   configure :development do
     require 'sinatra/reloader'
     register Sinatra::Reloader
-    set :config, YAML.load_file('conf/tutter.yaml')
     set :bind, '0.0.0.0'
   end
 
   configure :test do
-    set :config, YAML.load_file('conf/tutter.yaml')
     set :bind, '0.0.0.0'
-  end
-
-  configure :production do
-    set :config, YAML.load_file('/etc/tutter.yaml')
   end
 
   # Return project settings from config
