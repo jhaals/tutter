@@ -6,6 +6,6 @@ class Action
       raise "Unsupported action #{action}: #{e}"
     end
     class_name = action.split("_").map {|v| v.capitalize }.join
-    const_get(class_name).new settings, client, project, event, data
+    const_get(class_name).new settings, client, project, data, event
   end
 end
