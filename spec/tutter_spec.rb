@@ -4,13 +4,13 @@ require 'json'
 describe 'tutter' do
 
   it 'should complain about missing project in settings' do
-    post '/', params=JSON.generate({'repository' => {'full_name' => '404'}})
+    post '/', params=JSON.generate({'repository' => {'full_name' => '404'}}), {'HTTP_X_GITHUB_EVENT' => 'fake'}
     last_response.body.should match /Project does not exist in tutter.conf/
     last_response.status.should == 404
   end
 
   it 'should complain about POST data not being JSON' do
-    post '/', params={'broken' => 'data'}
+    post '/', params={'broken' => 'data'}, {'HTTP_X_GITHUB_EVENT' => 'fake'}
     last_response.body.should match /POST data is not JSON/
     last_response.status.should == 400
   end
@@ -25,7 +25,7 @@ end
 describe 'tutter Hello action' do
   it 'should complain about invalid credentials' do
     data = IO.read('spec/fixtures/new_issue.json')
-    post '/', params=data
+    post '/', params=data, {'HTTP_X_GITHUB_EVENT' => 'fake'}
     last_response.body.should match /Authorization to JHaals\/testing failed, please verify your access token/
     last_response.status.should == 401
   end
