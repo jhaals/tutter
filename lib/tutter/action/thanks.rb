@@ -21,6 +21,9 @@ class Thanks
 
     begin
       @client.add_comment(@project, issue, comment)
+      return 200, "Commented!"
+    rescue Octokit::NotFound
+      return 404, "Octokit returned 404, this could be an issue with your access token"
     rescue Octokit::Unauthorized
       return 401, "Authorization to #{@project} failed, please verify your access token"
     rescue Octokit::TooManyLoginAttempts
