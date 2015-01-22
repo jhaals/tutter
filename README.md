@@ -25,28 +25,17 @@ Let's install the `thanks` action that thank anyone that creates an issue in you
 * `action` - action you wish to use for the project
 * `action_settings` - whatever settings your action require
 
-### Create the Github hook
-Github has no UI for creating hooks other then hooks triggered on push.
+### Create the Github webhook
+Hooks can be configured just to send the event that you're interested in. The important part is that `Payload URL` points to the webserver running tutter
 
-Let's create one that triggers on issues
+    https://github.com/ORG/PROJECT/settings/hooks/new
 
-    $ tutter --project jhaals/testing \
-    --url https://tutter.jhaals.se \
-    --access-token <github_api_token> \
-    --github-web-url https://github.com \
-    --github-api-endpoint https://api.github.com \
-    --events issues
-
-_The tutter user need admin access in your organisation to be able to create the hook_
-
-`--events` can take multiple events separated by comma
-
-New issues should get a response from your tutter user
+Example of how the `thanks` demo-action look like. Tutter listen for issue events and posts back with a greeting.
 ![img](http://f.cl.ly/items/1k111I3H1N0L3008301c/tutter.png)
 
 ## Build custom action
 
-Another example action [github.com/jhaals/tutter-sppuppet](https://github.com/jhaals/tutter-sppuppet)
+See [thanks action](https://github.com/jhaals/tutter/blob/master/lib/tutter/action/thanks.rb)
 
 #####Required methods and their arguments
 
@@ -55,6 +44,7 @@ Another example action [github.com/jhaals/tutter-sppuppet](https://github.com/jh
     settings - contains a hash of action specific settings
     client - Used to access the github api, all authentication is already done by tutter
     project - Project name, eg jhaals/tutter
+    event - Event type
     data - POST data that github send when a hook is triggered
 
 `run` - Run action
@@ -62,7 +52,6 @@ Another example action [github.com/jhaals/tutter-sppuppet](https://github.com/jh
 Tutter uses [octokit.rb](https://github.com/octokit/octokit.rb) to communicate with the Github [API](http://developer.github.com/v3/)
 
 ### Features to implement
-* Add web hooks in Github automatically or in a nicer way
 * Support multiple actions per project
 * Authenticate as a Github application
 * Features your're missing (please contribute)
