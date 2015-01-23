@@ -15,7 +15,8 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 1.8.7'
   s.add_runtime_dependency 'sinatra', '~> 1.4.4'
-  s.add_runtime_dependency 'sinatra-contrib', '~> 1.4.0'
   s.add_runtime_dependency 'octokit', '~> 3.2.0'
+  
+  s.add_development_dependency 'sinatra-contrib', '~> 1.4.0'
 end
 
