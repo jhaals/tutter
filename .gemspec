@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'tutter'
-  s.version     = '0.0.3'
+  s.version     = '0.0.4'
   s.author      = 'Johan Haals'
   s.email       = ['johan.haals@gmail.com']
   s.homepage    = 'https://github.com/jhaals/tutter'
@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.8.7'
   s.add_runtime_dependency 'sinatra', '~> 1.4.4'
   s.add_runtime_dependency 'octokit', '~> 3.2.0'
-  
+
   s.add_development_dependency 'sinatra-contrib', '~> 1.4.0'
 end
 
