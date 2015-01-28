@@ -1,4 +1,13 @@
 language: ruby
 rvm:
-    - 1.9.3
-    - 2.0.0
+- 1.9.3
+- 2.0.0
+deploy:
+  provider: rubygems
+  api_key:
+    secure: n8Dxj8UpauHBzBF10yVOCndmXEfLUQNV9ye9fi+b3tCtZHPqfEAaOfltbgP0Z8UglbiN8zPlt+Ayq4AiYXMx+gWEWpin+euVSvcK2JnMLQP1U9WD9qpTpAUXzIXxdUsoIY0VDfDMWpC+PYVCbNYNviKslaMRvzCd7w5dCOfsI30=
+  gem: tutter
+  on:
+    tags: true
+    repo: jhaals/tutter
+    all_branches: true
