@@ -1,5 +1,6 @@
 # Example action
 # Thank the person who submit an issue
+# The comment text is configurabe using the 'comment' setting.
 
 class Thanks
   def initialize(settings, client, project, data, event)
@@ -17,7 +18,7 @@ class Thanks
     end
     issue = @data['issue']['number']
     submitter = @data['issue']['user']['login']
-    comment = "@#{submitter} thanks for submitting this issue!"
+    comment = @settings['comment'] || "@#{submitter} thanks for submitting this issue!"
 
     begin
       @client.add_comment(@project, issue, comment)
