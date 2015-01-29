@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'tutter'
-  s.version     = '0.0.4'
+  s.version     = '0.0.5'
   s.author      = 'Johan Haals'
   s.email       = ['johan.haals@gmail.com']
   s.homepage    = 'https://github.com/jhaals/tutter'
