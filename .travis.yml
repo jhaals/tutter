@@ -7,6 +7,7 @@ deploy:
   api_key:
     secure: n8Dxj8UpauHBzBF10yVOCndmXEfLUQNV9ye9fi+b3tCtZHPqfEAaOfltbgP0Z8UglbiN8zPlt+Ayq4AiYXMx+gWEWpin+euVSvcK2JnMLQP1U9WD9qpTpAUXzIXxdUsoIY0VDfDMWpC+PYVCbNYNviKslaMRvzCd7w5dCOfsI30=
   gem: tutter
+  gemspec: .gemspec
   on:
     tags: true
     repo: jhaals/tutter
