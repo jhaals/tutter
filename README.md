@@ -35,7 +35,8 @@ Example of how the `thanks` demo-action look like. Tutter listen for issue event
 
 ## Build custom action
 
-See [thanks action](https://github.com/jhaals/tutter/blob/master/lib/tutter/action/thanks.rb)
+A simple action for getting started is the built in [thanks](https://github.com/jhaals/tutter/blob/master/lib/tutter/action/thanks.rb) action.
+More advanced usage can be seen in the [tutter-sppuppet](https://github.com/jhaals/tutter-sppuppet) action that allows non-collaborators to merge pull requests
 
 #####Required methods and their arguments
 
