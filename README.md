@@ -52,7 +52,4 @@ See [thanks action](https://github.com/jhaals/tutter/blob/master/lib/tutter/acti
 Tutter uses [octokit.rb](https://github.com/octokit/octokit.rb) to communicate with the Github [API](http://developer.github.com/v3/)
 
 ### Features to implement
-* Support multiple actions per project
 * Authenticate as a Github application
-* Features your're missing (please contribute)
-* Tests!
