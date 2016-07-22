@@ -24,14 +24,11 @@ class Tutter < Sinatra::Base
   # Return project settings from config
   def project_settings(project)
     settings.config['projects'].each do |p|
-      if p['name'] == project
-        return p
-      else
-        error(404, 'Project does not exist in tutter.conf')
-      end
+      return p if p['name'] == project
     end
-    false
+    error(404, 'Project does not exist in tutter.conf')
   end
+
   # Return actions for event from config
   def actions_for_event(event, config)
     config['actions'][event] || error(404,
