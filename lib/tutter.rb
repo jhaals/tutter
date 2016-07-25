@@ -21,6 +21,11 @@ class Tutter < Sinatra::Base
     set :bind, '0.0.0.0'
   end
 
+  def verify_signature(payload_body, secret_token)
+    signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), secret_token, payload_body)
+    return halt 500, "Signatures didn't match!" unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
+  end
+
   # Return project settings from config
   def project_settings(project)
     settings.config['projects'].each do |p|
@@ -51,21 +56,21 @@ class Tutter < Sinatra::Base
     Octokit::Client.new access_token: access_token
   end
 
-  def prepare_actions(project, event, data)
-    config = project_settings(project)
+  def prepare_actions(project, event, data, config)
+    client = octokit_client(config)
     actions_for_event(event, config).each do |a|
       yield Action.create(a,
                           config['action_settings'],
-                          octokit_client(config),
+                          client,
                           project,
                           event,
                           data), a
     end
   end
 
-  def try_actions(event, data, project)
+  def try_actions(event, data, project, config)
     responses = { event: event, responses: {} }
-    prepare_actions(project, event, data) do |action, name|
+    prepare_actions(project, event, data, config) do |action, name|
       status_code, message = action.run
       responses[:responses][name] = { status_code: status_code,
                                       message: message
@@ -83,14 +88,18 @@ class Tutter < Sinatra::Base
     return 200, 'Tutter likes this hook!' if event == 'ping'
 
     # Github send data in JSON format, parse it!
+    request_body = request.body.read
     begin
-      data = JSON.parse request.body.read
+      data = JSON.parse request_body
     rescue JSON::ParserError
       error(400, 'POST data is not JSON')
     end
+
     project = data['repository']['full_name'] || error(400, 'Bad request')
-    # Check actions with repo
-    return try_actions(event, data, project) if data['repository']
+    config = project_settings(project)
+    verify_signature(request_body, config['hook_secret']) if config['hook_secret']
+
+    return try_actions(event, data, project, config) if data['repository']
   end
 
   get '/' do
