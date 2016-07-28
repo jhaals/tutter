@@ -1,36 +1,31 @@
 # Tutter - Plugin based Github robot
 [![Build Status](https://travis-ci.org/jhaals/tutter.png?branch=master)](https://travis-ci.org/JHaals/tutter)
 
-Tutter is a web app that trigger actions based on Github events(push, pull_reqeust, release, issue, ...)
+Tutter is a robot that can trigger customizable actions based on Github [events]((https://developer.github.com/v3/activity/events/types/)(push, pull_request, release, issue, ..)
 
-# Features
-* Pluggable with custom actions
-* Supports multiple projects
 
 # Installation
 
     gem install tutter
 
-put a configuration file in `/etc/tutter.yaml`
-an example can be found under `conf/tutter.yaml`
-
-Let's install the `thanks` action that thank anyone that creates an issue in your project.
+Place configuration file in `/etc/tutter.yaml`, example can be found in the conf/ directory.
 
 ### tutter.yaml settings
 
-* `name` - username/projectname
-* `access_token` - github access token (can be generated [here](https://github.com/settings/applications))
+* `name` - username/project_name
+* `access_token` - Github access token (can be generated [here](https://github.com/settings/applications))
 * `github_site` - github website
-* `github_api_enpoint` - github api endpint
+* `github_api_endpoint` - github api endpoint
+* `hook_secret` - (Optional) validate hook data based on known secret([more](https://developer.github.com/webhooks/securing/)).
 * `action` - action you wish to use for the project
 * `action_settings` - whatever settings your action require
 
-### Create the Github webhook
-Hooks can be configured just to send the event that you're interested in. The important part is that `Payload URL` points to the webserver running tutter
+### Configure Tutter action
+Hooks can be configured just to send the event that you're interested in. The important part is that `Payload URL` points to the webserver running Tutter
 
     https://github.com/ORG/PROJECT/settings/hooks/new
 
-Example of how the `thanks` demo-action look like. Tutter listen for issue events and posts back with a greeting.
+Example on how the `thanks` action looks like. Tutter listens for `issue` events and posts back with a greeting.
 ![img](http://f.cl.ly/items/1k111I3H1N0L3008301c/tutter.png)
 
 ## Build custom action
@@ -38,7 +33,7 @@ Example of how the `thanks` demo-action look like. Tutter listen for issue event
 A simple action for getting started is the built in [thanks](https://github.com/jhaals/tutter/blob/master/lib/tutter/action/thanks.rb) action.
 More advanced usage can be seen in the [tutter-sppuppet](https://github.com/jhaals/tutter-sppuppet) action that allows non-collaborators to merge pull requests
 
-#####Required methods and their arguments
+##### Required methods and their arguments
 
 `initialize`
 
