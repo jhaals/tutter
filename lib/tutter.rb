@@ -1,11 +1,14 @@
-require 'rubygems'
-require 'octokit'
-require 'yaml'
-require 'sinatra'
-require 'tutter/action'
 require 'json'
+require 'octokit'
+require 'sinatra'
+require 'thin'
+require 'tutter/action'
+require 'yaml'
+
 # Modular sinatra app Tutter
 class Tutter < Sinatra::Base
+  enable :logging
+
   configure do
     set :config_path, ENV['TUTTER_CONFIG_PATH'] || 'conf/tutter.yaml'
     set :config, YAML.load_file(settings.config_path)
