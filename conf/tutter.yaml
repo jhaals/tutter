@@ -3,6 +3,7 @@ projects:
     access_token: ''
     github_site: 'https://github.com'
     github_api_endpoint: 'https://api.github.com'
+    github_api_auto_paginate: true
 
     actions:
       issue:
