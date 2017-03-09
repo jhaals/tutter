@@ -48,6 +48,7 @@ class Tutter < Sinatra::Base
     Octokit.configure do |c|
       c.api_endpoint = config['github_api_endpoint']
       c.web_endpoint = config['github_site']
+      c.auto_paginate = config['github_api_auto_paginate'] or false
     end
 
     if config['access_token_env_var']
